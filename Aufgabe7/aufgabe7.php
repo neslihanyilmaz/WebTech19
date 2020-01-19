@@ -11,7 +11,7 @@
     *  $password = 'meinPasswort';
     *
     */
-   	require_once '../nichtinzip/passwd.inc.php';
+   /*	require_once '../nichtinzip/passwd.inc.php'; */
    	require_once('DB.php');
 
    	/* hier wird ein neues Objekt von DB erzeugt
@@ -24,7 +24,7 @@
    	 * vierter Parameter ist Ihr Passwort (ich habe mein Passwort als Wert der Variablen $password
    	 * in der Datei passwd.inc.pwd abgelegt (siehe oben)
    	 */
-   	$dbh = new DB('_freiheit__mockupdatadb', 'db.f4.htw-berlin.de:3306', 'freiheit', $password);
+   	$dbh = new DB('_s0563102__mockupdatadb', 'db.f4.htw-berlin.de:3306', 's0563102', 'Nacho1998');
 
    	/* die folgende Funktion ist nur eine Hilfsfunktion zum Debuggen
    	 * auf der Konsole in den Entwicklertools Ihres Browsers erscheint
@@ -53,6 +53,19 @@
              * ändern oder löschen möchten
              * An den einzelnen "Karteikarten" erscheinen edit- und delete-"Buttons" - s.u.
              */
+
+            $command=$_GET['command'];
+            $id=$_GET['id'];
+
+            if($command=='delete')
+            {
+                $dbh->delete($id);
+            }
+            if($command=='edit')
+            {
+                $teilnehmerin =$dbh->get($id);
+               /* print_r($teilnehmerin); */
+            }
 	   }
 	
 	   elseif ($_POST) {
@@ -63,7 +76,27 @@
              * wird die id nicht mitgeliefert, dienen die Daten dem Einfügen eines neuen Datensatzes
              * in die Datenbank
              */
-	   }
+            $vorname =filter_var($_POST['vorname'],FILTER_SANITIZE_STRING);
+           $nachname =filter_var($_POST['nachname'],FILTER_SANITIZE_STRING);
+           $email =filter_var($_POST['email'],FILTER_SANITIZE_EMAIL);
+           $ipnr =filter_var($_POST['ipnr'],FILTER_SANITIZE_STRING);
+
+           if(isset($_POST['id']))
+           {
+               $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
+               $dbh->edit(array($vorname, $nachname, $email, $ipnr, $id));
+
+           }
+           else {
+               $dbh->add(array($vorname, $nachname, $email, $ipnr));
+           }
+
+
+
+
+
+
+       }
        // die folgenden drei Zeilen sind zum Testen --> können Sie jeweils auskommentieren, um zu testen
 	   // $dbh->edit(array("Jan", "Justermann", "jan@justermann", "6789", 51));
 	   // $dbh->add(array("Max", "Mustermann", "max@mustermann.de", "1234"));
@@ -93,22 +126,48 @@
                   es beinhaltet 4 einzeilige Textfelder: für Vornmae, Name, E-Mail-Adresse und IP-Nummer
                   beachten Sie: das Formular soll auch die id weitergeben (hidden-Textfeld)
                   beachten Sie: die Textfelder sind mit dem Datensatz, der editiert werden soll, vorausgefüllt
+
+
              -->
+
+                <input type="text" class="form-control" name="vorname" value="<?php echo $teilnehmerin['vorname']; ?>" />
+                <input type="text" class="form-control" name="nachname" value="<?php echo $teilnehmerin['nachname']; ?>" />
+                <input type="text" class="form-control" name="email" value="<?php echo $teilnehmerin['email']; ?>" />
+                <input type="text" class="form-control" name="ipnr" value="<?php echo $teilnehmerin['ipnr']; ?>" />
+                <input type="hidden" class="form-control" name="id" value="<?php echo $teilnehmerin['id']; ?>" />
+                <button type="submit" class="btn btn-block btn-primary"> Aktualisieren </button>
+
+
             </form>
 
             <?php else : ?>
-           	<div class="row">
-           		<div class="col-xs-12">
-            		<form role="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
+
+             <div class="row">
+                 <div class="col-xs-12">
+
+
+
+
+                 <form role="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
                         <!--
                              dies ist das Formular für das Anlegen eines neuen Datensatzes
                              es beinhaltet 4 einzeilige Textfelder: für Vornmae, Name, E-Mail-Adresse und IP-Nummer
                              keine id - diese wird von der Datenbank selbständig erzeugt (auto inkrement)
-                        -->
 
-            		</form>
-               	 </div>
+
+                        -->
+                        <input type="text" class="form-control" name="vorname" placeholder="Vorname" />
+                        <input type="text" class="form-control" name="nachname" placeholder="Nachname" />
+                        <input type="text" class="form-control" name="email" placeholder="E-mail" />
+                        <input type="text" class="form-control" name="ipnr" PLACEHOLDER="IP-Adresse">
+                        <button type="submit" class="btn btn-block btn-primary"> Hinzufügen </button>
+
+
+
+                    </form>
+                 </div>
              </div>
+
          <?php endif; ?>
 
          </div> <!-- / .panel-body -->
@@ -132,8 +191,8 @@
       		 			<p> '.$teilnehmerin["email"].' </p>
       					<p> '.$teilnehmerin["ipnr"].' </p>
                         <div class="buttons-edit">
-                           <a class="btn btn-default btn-sm" href="<!-- hier muss eine passende URL angegeben werden (mit command und id-->">Edit</a>
-                           <a class="btn btn-default btn-sm" href="<!-- hier muss eine passende URL angegeben werden (mit command und id-->">Delete</a>
+                           <a class="btn btn-default btn-sm" href="./aufgabe7.php?command=edit&id='.$teilnehmerin["id"].'">Edit</a>
+                           <a class="btn btn-default btn-sm" href="./aufgabe7.php?command=delete&id='.$teilnehmerin["id"].'">Delete</a>
                         </div>
                      </div>
                   </div>';
