@@ -4,9 +4,9 @@
     <title> Grundger&uuml;st </title>
     <meta charset=utf-8" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <!-- hier können Sie Stylesheets einbinden -->
+    <!-- hier können Sie Stylesheets einbinden -->
     <?php
-    // hier können Sie Funktionen definieren
+    // hier können Sie Funktionen definieren
     // oder auch php-Dateien einbinden (mit include oder require) ?>
     <style type="text/css">
         header{
@@ -16,6 +16,7 @@
             text-align: center;
             width: 100%;
 
+                          
         }
         div > p{
             color: red;
