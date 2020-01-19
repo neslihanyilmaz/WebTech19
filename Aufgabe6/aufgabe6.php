@@ -60,6 +60,8 @@
      </div>
         </div>
         
+        <button type='submit' class='btn btn-primary'>Save changes</button>
+        
      </form>
      
     ";
@@ -69,23 +71,7 @@
 
     }
     else {
-        if($_POST['id'])
-        {
-            $id=($_POST['id']);
-            $vorname= filter_var($_POST['vorname'], FILTER_SANITIZE_STRING );
-            $nachname=filter_var($_POST['nachname'],FILTER_SANITIZE_STRING);
-            $email = filter_var($_POST['email'],FILTER_SANITIZE_EMAIL);
 
-            $members[id][0]= $vorname;
-            $members[id][1]=$nachname;
-            $members[id][2]=$email;
-
-            $datei = fopen("./mockdataarray.php", "r+");
-            $output = '<?php $members='.var_export($members, true).'; ?>';
-            fwrite($datei, $output);
-            fclose($datei);
-        }
-    }
 
       
       
@@ -130,5 +116,7 @@
 
 
 </div>
+<?php
+}?>
 </body>
 </html>
