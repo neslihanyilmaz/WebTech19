@@ -17,7 +17,9 @@
         befüllt ist. Kommentieren Sie diese Anweisung aus.
         Das Auslesen des $members-Array erfolgt dann unten in der Tabelle
     */
-    print_r($members);
+
+
+   /* print_r($members); */
     /*
         in diesem php-Tag könnten Sie stattdessen prüfen, ob das $_GET-Array
         oder das $_POST-Array befüllt ist
@@ -29,6 +31,73 @@
             fwrite($datei, $output);
             fclose($datei);
     */
+
+    if(isset($_GET['id']))
+    {
+      $id=filter_var($_GET['id'],FILTER_SANITIZE_NUMBER_INT);
+
+        echo "
+    <form action='./aufgabe6.php' method='post'>
+    <div class='form group row'>
+    <label for='vorname' class='col-2'>Vorname</label>
+    <div class='col-10'>
+    <input type='text' class='form-control' name='vorname' value='".$members[$id][0]."'/>
+    </div>
+        </div>
+
+
+    <div class='form group row'>
+    <label for='nach' class='col-2'>Nachname</label>
+    <div class='col-10'>
+    <input type='text' class='form-control' name='nachname' value='".$members[$id][1]."'/>
+     </div>
+        </div>
+
+     <div class='form group row'>
+      <label for='email' class='col-2'>E-Mail</label>
+      <div class='col-10'>
+    <input type='text' class='form-control' name='email' value='".$members[$id][2]."'/>
+     </div>
+        </div>
+        
+     </form>
+     
+    ";
+
+
+
+
+    }
+    else {
+        if($_POST['id'])
+        {
+            $id=($_POST['id']);
+            $vorname= filter_var($_POST['vorname'], FILTER_SANITIZE_STRING );
+            $nachname=filter_var($_POST['nachname'],FILTER_SANITIZE_STRING);
+            $email = filter_var($_POST['email'],FILTER_SANITIZE_EMAIL);
+
+            $members[id][0]= $vorname;
+            $members[id][1]=$nachname;
+            $members[id][2]=$email;
+
+            $datei = fopen("./mockdataarray.php", "r+");
+            $output = '<?php $members='.var_export($members, true).'; ?>';
+            fwrite($datei, $output);
+            fclose($datei);
+        }
+    }
+
+      
+      
+    
+       
+       
+        
+        
+
+
+
+
     ?>
     <table class="table table-striped table-responsive">
         <thead>
@@ -42,8 +111,24 @@
              jede Zeile ist ein Array aus dem 2-dimensionalen
              $members-Array
              -->
+        <?php
+        foreach($members as $key => $entry) {
+
+         echo"<tr>";
+        foreach ($entry as $value)
+        {
+
+             echo "<td>$value</td>";
+
+        }
+            echo "<td><a href='./aufgabe6.php?id=".$key."' >Edit</a></td>";
+         echo "</tr>";
+        }
+        ?>
         </tbody>
     </table>
+
+
 </div>
 </body>
 </html>
