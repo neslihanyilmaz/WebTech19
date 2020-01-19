@@ -1,11 +1,86 @@
 body {
     background-color: #FF5F00;	/* HTW-orange */
     font-size:1rem;
+
 }
 
-@media screen and (min-width: 480px) {
+
+#oben{
+    background-color: royalblue;
+    color: white;
+    padding:10px;
+    margin-bottom: 20px;
+
+
+}
+#links{
+    background-color: lightblue;
+    color: white;
+    padding:10px;
+}
+#mitte{
+    background-color: royalblue;
+    color: white;
+    padding:10px;
+}
+#rechts{
+    background-color: midnightblue;
+    color: white;
+    padding:10px;
+}
+#unten{
+    background-color: lightcyan;
+    color: black;
+    padding:10px;
+    margin-top: 20px;
+}
+
+
+
+
+
+
+
+
+@media screen and (min-width: 960px) {
     body {
         background-color: #0082D1;	/* HTW-blau */
         font-size:1.2rem;
     }
+    #oben{
+        background-color: honeydew;
+        color: black;
+    }
+    #links{
+        background-color: darkseagreen;
+    }
+    #mitte{
+        background-color: darkgreen;
+    }
+    #rechts{
+        background-color: forestgreen;
+    }
+    #unten{
+        background-color: honeydew;
+        color: black;
+    }
+    .flex-container{
+        display:flex;
+        flex-wrap: nowrap;
+
+    }
+
+    .flex-item1{
+        flex:1
+    }
+
+    .flex-item2{
+        flex:4
+    }
+
+    .flex-item3{
+        flex:2
+    }
+
+
 }
